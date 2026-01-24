@@ -40,7 +40,7 @@ function frame:PLAYER_LOGIN()
 	SetCVar("namePlateMinScale", 1)
 	SetCVar("namePlateMaxScale", 1)
 	SetCVar("nameplateLargerScale", 1)
-	SetCVar("nameplateSelectedScale", 1)
+	SetCVar("nameplateSelectedScale", 1.5)
 	SetCVar("nameplateMinAlpha", 1)
 	SetCVar("nameplateMaxAlpha", 1)
 	SetCVar("nameplateSelectedAlpha", 1)
@@ -56,7 +56,7 @@ function frame:PLAYER_LOGIN()
 	if C.nameplate.only_name then
 		-- SetCVar("nameplateShowOnlyNames", 1) -- This option bugged new Afflicted affix
 	end
-	SetCVar("nameplateShowOnlyNames", 0)
+	SetCVar("nameplateShowOnlyNames", 1)
 
 	local function changeFont(self, size)
 		local mult = size or 1
@@ -736,7 +736,7 @@ local function style(self, unit)
 		self.Health.value = self.Health:CreateFontString(nil, "OVERLAY")
 		self.Health.value:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * 1, C.font.nameplates_font_style)
 		self.Health.value:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
-		self.Health.value:SetPoint("RIGHT", self.Health, "RIGHT", 0, 0)
+		self.Health.value:SetPoint("CENTER", self.Health, "CENTER", 0, 0)
 		self:Tag(self.Health.value, "[NameplateHealth]")
 	end
 
@@ -778,7 +778,7 @@ local function style(self, unit)
 	if C.nameplate.name_abbrev then
 		self:Tag(self.Name, "[NameplateNameColor][NameLongAbbrev]")
 	elseif C.nameplate.short_name then
-		self:Tag(self.Name, "[NameplateNameColor][NameplateNameShort]")
+		self:Tag(self.Name, "[NameplateNameShort]")
 	else
 		self:Tag(self.Name, "[NameplateNameColor][NameLong]")
 	end

@@ -138,6 +138,8 @@ C["unitframe"] = {
 	["plugins_absorbs"] = false,				-- Absorbs value on player frame
 	-- Size
 	["player_width"] = 217,						-- Player and Target width
+	["player_height"] = 65,						-- Player and Target height
+	["power_height"] = 10,						-- Player and Target power height
 	["boss_width"] = 150,						-- Boss and Arena width
 	["extra_height_auto"] = true,				-- Auto height for health/power depending on font size
 	["extra_health_height"] = 0,				-- Additional height for health

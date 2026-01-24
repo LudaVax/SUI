@@ -71,7 +71,7 @@ hooksecurefunc(BuffFrame.AuraContainer, "UpdateGridLayout", function(_, auras)
 
 		local duration = aura.Duration
 		duration:ClearAllPoints()
-		duration:SetPoint("CENTER", 2, 1)
+		duration:SetPoint("CENTER", 2, -30)
 		duration:SetDrawLayer("ARTWORK")
 		duration:SetFont(C.font.auras_font, C.font.auras_font_size, C.font.auras_font_style)
 		duration:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
@@ -117,4 +117,4 @@ end
 BuffFrame.CollapseAndExpandButton:Kill()
 
 -- Hide debuffs
-DebuffFrame.AuraContainer:Hide()
+DebuffFrame.AuraContainer:Show()

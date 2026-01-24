@@ -118,7 +118,7 @@ local function Shared(self, unit)
 			self.Info:SetPoint("TOPRIGHT", self.Health, "TOPRIGHT", 0, -center)
 		end
 	end
-	self:Tag(self.Info, "[GetNameColor][NameShort]")
+	self:Tag(self.Info, "[NameShort]")
 
 	if not (suffix == "pet" or (suffix == "target" and unit ~= "tank")) then
 		self.Health.value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)

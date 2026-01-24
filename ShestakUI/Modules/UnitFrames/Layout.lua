@@ -15,6 +15,7 @@ end
 T.extraHeight = C.unitframe.extra_health_height + C.unitframe.extra_power_height
 
 local player_width = C.unitframe.player_width
+local player_height = C.unitframe.player_height
 local pet_width = (player_width - 7) / 2
 local boss_width = C.unitframe.boss_width
 
@@ -50,11 +51,11 @@ local function Shared(self, unit)
 	-- Health bar
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
 	if unit == "player" or unit == "target" or unit == "arena" or unit == "boss" then
-		self.Health:SetHeight(21 + C.unitframe.extra_health_height)
+		self.Health:SetHeight(player_height + C.unitframe.extra_health_height)
 	elseif unit == "arenatarget" then
 		self.Health:SetHeight(27 + T.extraHeight)
 	else
-		self.Health:SetHeight(13 + (C.unitframe.extra_health_height / 2))
+		self.Health:SetHeight(player_height/2 + (C.unitframe.extra_health_height / 2))
 	end
 	self.Health:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
 	self.Health:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 0)
@@ -92,8 +93,13 @@ local function Shared(self, unit)
 	if unit ~= "arenatarget" then
 		self.Health.value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
 		if unit == "player" or unit == "pet" or unit == "focus" then
-			self.Health.value:SetPoint("RIGHT", self.Health, "RIGHT", 0, 0)
-			self.Health.value:SetJustifyH("RIGHT")
+			self.Health.value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size+35, C.font.unit_frames_font_style)
+			self.Health.value:SetPoint("CENTER", self.Health, "CENTER", 0, 0)
+			self.Health.value:SetJustifyH("CENTER")
+		elseif unit == "target" then
+			self.Health.value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size+35, C.font.unit_frames_font_style)
+			self.Health.value:SetPoint("CENTER", self.Health, "CENTER", 0, -10)
+			self.Health.value:SetJustifyH("CENTER")
 		elseif unit == "arena" then
 			if C.unitframe.arena_on_right == true then
 				self.Health.value:SetPoint("LEFT", self.Health, "LEFT", 2, 0)
@@ -111,20 +117,26 @@ local function Shared(self, unit)
 				self.Health.value:SetJustifyH("RIGHT")
 			end
 		else
-			self.Health.value:SetPoint("LEFT", self.Health, "LEFT", 2, 0)
-			self.Health.value:SetJustifyH("LEFT")
+			self.Health.value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size+15, C.font.unit_frames_font_style)
+			self.Health.value:SetPoint("CENTER", self.Health, "CENTER", 2, -10)
+			self.Health.value:SetJustifyH("CENTER")
 		end
 
 		-- Power bar
 		self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
-		if unit == "player" or unit == "target" or unit == "arena" or unit == "boss" then
-			self.Power:SetHeight(5 + C.unitframe.extra_power_height)
+		if unit == "player" then
+			self.Power:SetHeight(C.unitframe.power_height + C.unitframe.extra_power_height)
+			self.Power:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 305, 6)
+			self.Power:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 305, 6)
+			self.Power:SetStatusBarTexture(C.media.texture)
+		elseif unit == "target" or unit == "arena" or unit == "boss" then
+			self.Power:SetHeight(C.unitframe.power_height + C.unitframe.extra_power_height)
+			self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, -1)
+			self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, -1)
+			self.Power:SetStatusBarTexture(C.media.texture)
 		else
 			self.Power:SetHeight(2)
 		end
-		self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, -1)
-		self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, -1)
-		self.Power:SetStatusBarTexture(C.media.texture)
 
 		self.Power.frequentUpdates = true
 		self.Power.colorDisconnected = true
@@ -155,8 +167,8 @@ local function Shared(self, unit)
 		if unit ~= "pet" and unit ~= "focus" and unit ~= "focustarget" and unit ~= "targettarget" then
 			self.Power.value = T.SetFontString(self.Power, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
 			if unit == "player" then
-				self.Power.value:SetPoint("RIGHT", self.Power, "RIGHT", 0, 0)
-				self.Power.value:SetJustifyH("RIGHT")
+				self.Power.value:SetPoint("CENTER", self.Power, "CENTER", 0, 0)
+				self.Power.value:SetJustifyH("CENTER")
 			elseif unit == "arena" then
 				if C.unitframe.arena_on_right == true then
 					self.Power.value:SetPoint("LEFT", self.Power, "LEFT", 2, 0)
@@ -188,10 +200,11 @@ local function Shared(self, unit)
 			self.Level = T.SetFontString(self.Power, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
 		end
 		if unit == "target" then
-			self.Info:SetPoint("RIGHT", self.Health, "RIGHT", 0, 0)
-			self.Info:SetPoint("LEFT", self.Health.value, "RIGHT", 0, 0)
-			self.Info:SetJustifyH("RIGHT")
-			self:Tag(self.Info, "[GetNameColor][NameLong]")
+			self.Info = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size+10, C.font.unit_frames_font_style)
+			self.Info:SetPoint("TOP", self.Health, "TOP", 0, 0)
+			self.Info:SetPoint("CENTER", self.Health.value, "RIGHT", 0, 0)
+			self.Info:SetJustifyH("CENTER")
+			self:Tag(self.Info, "[NameLong]")
 			self.Level:SetPoint("RIGHT", self.Power, "RIGHT", 0, 0)
 			self:Tag(self.Level, "[cpoints] [Threat] [DiffColor][level][shortclassification]")
 		elseif unit == "focus" or unit == "pet" then
@@ -201,7 +214,7 @@ local function Shared(self, unit)
 			if unit == "pet" then
 				self:Tag(self.Info, "[PetNameColor][NameMedium]")
 			else
-				self:Tag(self.Info, "[GetNameColor][NameMedium]")
+				self:Tag(self.Info, "[NameMedium]")
 			end
 		elseif unit == "arenatarget" then
 			self.Info:SetPoint("CENTER", self.Health, "CENTER", 1, 0)
@@ -476,7 +489,7 @@ local function Shared(self, unit)
 		if C.unitframe_class_bar.combo == true and C.unitframe_class_bar.combo_old ~= true and (T.class == "ROGUE" or T.class == "DRUID") then
 			self.ComboPoints = CreateFrame("Frame", self:GetName().."_ComboBar", self)
 			self.ComboPoints:CreateBackdrop("Default")
-			self.ComboPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
+			self.ComboPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 305, -64)
 			self.ComboPoints:SetSize(player_width, 7)
 
 			for i = 1, 7 do
@@ -1213,32 +1226,32 @@ oUF:RegisterStyle("Shestak", Shared)
 
 local player = oUF:Spawn("player", "oUF_Player")
 player:SetPoint(unpack(C.position.unitframes.player))
-player:SetSize(player_width, 27 + T.extraHeight)
+player:SetSize(player_width, player_height + T.extraHeight)
 
 local target = oUF:Spawn("target", "oUF_Target")
 target:SetPoint(unpack(C.position.unitframes.target))
-target:SetSize(player_width, 27 + T.extraHeight)
+target:SetSize(player_width, player_height + C.unitframe.power_height + T.extraHeight)
 
 if C.unitframe.show_pet == true then
 	local pet = oUF:Spawn("pet", "oUF_Pet")
 	pet:SetPoint(unpack(C.position.unitframes.pet))
-	pet:SetSize(pet_width, 16 + (C.unitframe.extra_health_height / 2))
+	pet:SetSize(pet_width, player_height/2 + (C.unitframe.extra_health_height / 2))
 end
 
 if C.unitframe.show_focus == true then
 	local focus = oUF:Spawn("focus", "oUF_Focus")
 	focus:SetPoint(unpack(C.position.unitframes.focus))
-	focus:SetSize(pet_width, 16 + (C.unitframe.extra_health_height / 2))
+	focus:SetSize(pet_width, player_height/2 + (C.unitframe.extra_health_height / 2))
 
 	local focustarget = oUF:Spawn("focustarget", "oUF_FocusTarget")
 	focustarget:SetPoint(unpack(C.position.unitframes.focus_target))
-	focustarget:SetSize(pet_width, 16 + (C.unitframe.extra_health_height / 2))
+	focustarget:SetSize(pet_width, player_height/2 + (C.unitframe.extra_health_height / 2))
 end
 
 if C.unitframe.show_target_target == true then
 	local targettarget = oUF:Spawn("targettarget", "oUF_TargetTarget")
 	targettarget:SetPoint(unpack(C.position.unitframes.target_target))
-	targettarget:SetSize(pet_width, 16 + (C.unitframe.extra_health_height / 2))
+	targettarget:SetSize(pet_width, player_height/2 + (C.unitframe.extra_health_height / 2))
 end
 
 if C.unitframe.show_boss == true then
