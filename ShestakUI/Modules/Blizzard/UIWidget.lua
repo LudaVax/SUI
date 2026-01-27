@@ -113,6 +113,13 @@ local function SkinStatusBar(widget)
 		end
 	end
 
+	if widget.Label then
+		local r, g, b = widget.Label:GetTextColor()
+		if r == 0 and g == 0 and b == 0 then
+			widget.Label:SetTextColor(1, 1, 1)
+		end
+	end
+
 	if not bar.styled then
 		bar.BGLeft:SetAlpha(0)
 		bar.BGRight:SetAlpha(0)
@@ -181,7 +188,6 @@ end
 
 local function SkinSpell(widget)
 	if not widget.styled then
-		widget:SetSize(35, 35)	-- use to avoid overlap in Jail (by default 30 size), not sure how it looks in another place
 		widget.Icon:SkinIcon(true)
 		widget.Border:SetAlpha(0)
 		widget.DebuffBorder:SetAlpha(0)
@@ -189,6 +195,9 @@ local function SkinSpell(widget)
 	end
 	widget.IconMask:Hide()
 	widget.CircleMask:Hide()
+
+	local w, h = widget:GetSize()
+	widget:SetSize(w + 5, h + 5)	-- use to avoid overlap in Jail (by default 30 size), not sure how it looks in another place
 
 	if widget.DebuffBorder:IsShown() then
 		widget.Icon.b:SetBackdropBorderColor(0.7, 0, 0)
