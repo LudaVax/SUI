@@ -778,7 +778,7 @@ local function style(self, unit)
 	if C.nameplate.name_abbrev then
 		self:Tag(self.Name, "[NameplateNameColor][NameLongAbbrev]")
 	elseif C.nameplate.short_name then
-		self:Tag(self.Name, "[NameplateNameShort]")
+		self:Tag(self.Name, "[NameplateNameColor][NameplateNameShort]")
 	else
 		self:Tag(self.Name, "[NameplateNameColor][NameLong]")
 	end
