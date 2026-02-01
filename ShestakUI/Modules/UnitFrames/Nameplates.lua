@@ -56,11 +56,8 @@ function frame:PLAYER_LOGIN()
 	if C.nameplate.only_name then
 		SetCVar("nameplateShowOnlyNameForFriendlyPlayerUnits", 1)
 	end
-<<<<<<< HEAD
+
 	SetCVar("nameplateShowOnlyNames", 1)
-=======
-	-- SetCVar("nameplateShowOnlyNames", 0)
->>>>>>> main
 
 	local function changeFont(self, size)
 		local mult = size or 1
