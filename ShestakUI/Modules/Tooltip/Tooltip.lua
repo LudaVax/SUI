@@ -387,7 +387,7 @@ local OnTooltipSetUnit = function(self)
 	end
 
 	if C.tooltip.who_targetting == true then
-		token = unit AddTargetedBy()
+		-- token = unit AddTargetedBy() -- BETA secret now
 	end
 end
 
