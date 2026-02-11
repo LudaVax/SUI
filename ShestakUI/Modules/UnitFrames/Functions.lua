@@ -870,6 +870,9 @@ T.PostCreateIcon = function(element, button)
 	button.Cooldown:SetCountdownFont("ShestakUI_AuraTimerFont")
 	button.Cooldown:SetCountdownAbbrevThreshold(60)
 
+	local textCD = button.Cooldown:GetRegions()
+	textCD:SetPoint("CENTER", button, "CENTER", 1, 0)
+
 	button.Icon:SetPoint("TOPLEFT", 2, -2)
 	button.Icon:SetPoint("BOTTOMRIGHT", -2, 2)
 	button.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -1038,13 +1041,17 @@ T.PostUpdateRaidButton = function(element, button, unit, data)
 		button:SetBackdropBorderColor(1, 0, 0)
 	end
 
-	if data.expirationTime and C.raidframe.plugins_aura_watch_timer then
-		button.remaining:Show()
-		button:SetScript("OnUpdate", T.CreateRaidAuraTimer)
-	else
-		button.remaining:Hide()
-		button:SetScript("OnUpdate", nil)
+	if not C.aura.plugins_aura_watch_timer then
+		button.Cooldown:SetHideCountdownNumbers(true)
 	end
+
+	-- if data.expirationTime and C.raidframe.plugins_aura_watch_timer then
+		-- button.remaining:Show()
+		-- button:SetScript("OnUpdate", T.CreateRaidAuraTimer)
+	-- else
+		-- button.remaining:Hide()
+		-- button:SetScript("OnUpdate", nil)
+	-- end
 end
 
 T.PostUpdateGapButton = function(_, _, button)

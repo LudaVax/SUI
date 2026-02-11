@@ -277,6 +277,9 @@ local AurasPostCreateIcon = function(element, button)
 	button.Cooldown:SetCountdownFont("ShestakUI_AuraTimerFont")
 	button.Cooldown:SetCountdownAbbrevThreshold(60)
 
+	local textCD = button.Cooldown:GetRegions()
+	textCD:SetPoint("CENTER", button, "CENTER", 1, 0)
+
 	button.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
 	button.Count:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 1, 0)
@@ -877,7 +880,7 @@ local function style(self, unit)
 	-- Aura tracking
 	if C.nameplate.track_debuffs or C.nameplate.track_buffs then
 		self.Auras = CreateFrame("Frame", nil, self)
-		self.Auras:SetPoint("BOTTOMRIGHT", self.Health, "TOPRIGHT", 0, C.font.nameplates_font_size + 7)
+		self.Auras:SetPoint("BOTTOMRIGHT", self.Health, "TOPRIGHT", 0, C.font.nameplates_font_size + 8)
 		self.Auras.initialAnchor = "BOTTOMRIGHT"
 		self.Auras.growthX = "LEFT"
 		self.Auras.growthY = "UP"
