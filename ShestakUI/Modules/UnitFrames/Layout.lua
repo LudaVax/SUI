@@ -123,10 +123,13 @@ local function Shared(self, unit)
 		end
 
 		-- THis value for full health
-		self.Health.short_value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
+		self.Health.short_value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size+35, C.font.unit_frames_font_style)
 		if unit == "player" or unit == "pet" or unit == "focus" then
 			self.Health.short_value:SetPoint("RIGHT", self.Health, "RIGHT", 0, 0)
 			self.Health.short_value:SetJustifyH("RIGHT")
+		elseif unit == "target" then
+			self.Health.short_value:SetPoint("CENTER", self.Health, "CENTER", 0, -10)
+			self.Health.short_value:SetJustifyH("CENTER")
 		elseif unit == "arena" then
 			if C.unitframe.arena_on_right == true then
 				self.Health.short_value:SetPoint("LEFT", self.Health, "LEFT", 2, 0)
@@ -144,7 +147,8 @@ local function Shared(self, unit)
 				self.Health.short_value:SetJustifyH("RIGHT")
 			end
 		else
-			self.Health.short_value:SetPoint("LEFT", self.Health, "LEFT", 2, 0)
+			self.Health.short_value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size+15, C.font.unit_frames_font_style)
+			self.Health.short_value:SetPoint("LEFT", self.Health, "LEFT", 2, -8)
 			self.Health.short_value:SetJustifyH("LEFT")
 		end
 
@@ -296,10 +300,10 @@ local function Shared(self, unit)
 			end
 			self:Tag(self.Info, "[GetNameColor][NameMedium]")
 		else
-			self.Info:SetPoint("RIGHT", self.Health, "RIGHT", 0, 0)
-			self.Info:SetPoint("LEFT", self.Health.value, "RIGHT", 0, 0)
-			self.Info:SetJustifyH("RIGHT")
-			self:Tag(self.Info, "[GetNameColor][NameMedium]")
+			self.Info:SetPoint("TOP", self.Health, "TOP", 0, 0)
+			self.Info:SetPoint("CENTER", self.Health.value, "RIGHT", 0, 0)
+			self.Info:SetJustifyH("CENTER")
+			self:Tag(self.Info, "[NameMedium]")
 		end
 	end
 
