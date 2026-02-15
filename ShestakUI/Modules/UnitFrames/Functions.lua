@@ -1,5 +1,5 @@
 local T, C, L = unpack(ShestakUI)
-if C.unitframe.enable ~= true then return end
+if C.unitframe.enable ~= true and C.nameplate.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Unit frames functions
@@ -60,9 +60,9 @@ T.PostUpdateHealth = function(health, unit, cur, max)
 		if (unit == "player" and not UnitHasVehicleUI("player") or unit == "vehicle") and health:GetAttribute("normalUnit") ~= "pet" then
 			if C.unitframe.show_total_value then
 				if C.unitframe.color_value then
-					health.value:SetFormattedText("|cff559655%s|r |cffD7BEA5-|r |cff559655%s|r", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+					health.value:SetFormattedText("|cff559655%s|r |cffD7BEA5-|r |cff559655%s|r", T.ShortValue(cur), T.ShortValue(max))
 				else
-					health.value:SetFormattedText("|cffffffff%s - %s|r", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+					health.value:SetFormattedText("|cffffffff%s - %s|r", T.ShortValue(cur), T.ShortValue(max))
 				end
 			else
 				if C.unitframe.color_value then
@@ -74,22 +74,22 @@ T.PostUpdateHealth = function(health, unit, cur, max)
 		elseif unit == "target" then
 			if C.unitframe.show_total_value then
 				if C.unitframe.color_value then
-					health.value:SetFormattedText("|cff559655%s|r |cffD7BEA5-|r |cff559655%s|r", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+					health.value:SetFormattedText("|cff559655%s|r |cffD7BEA5-|r |cff559655%s|r", T.ShortValue(cur), T.ShortValue(max))
 				else
-					health.value:SetFormattedText("|cffffffff%s - %s|r", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+					health.value:SetFormattedText("|cffffffff%s - %s|r", T.ShortValue(cur), T.ShortValue(max))
 				end
 			else
 				if C.unitframe.color_value then
-					health.value:SetFormattedText("|c%s%d%%|r |cffD7BEA5-|r |cffAF5050%s|r", hex, perc, AbbreviateNumbers(cur))
+					health.value:SetFormattedText("|c%s%d%%|r |cffD7BEA5-|r |cffAF5050%s|r", hex, perc, T.ShortValue(cur))
 				else
-					health.value:SetFormattedText("|cffffffff%d%% - %s|r", perc, AbbreviateNumbers(cur))
+					health.value:SetFormattedText("|cffffffff%d%% - %s|r", perc, T.ShortValue(cur))
 				end
 			end
 		elseif unit and unit:find("boss%d") then
 			if C.unitframe.color_value then
-				health.value:SetFormattedText("|c%s%d%%|r |cffD7BEA5-|r |cffAF5050%s|r", hex, perc, AbbreviateNumbers(cur))
+				health.value:SetFormattedText("|c%s%d%%|r |cffD7BEA5-|r |cffAF5050%s|r", hex, perc, T.ShortValue(cur))
 			else
-				health.value:SetFormattedText("|cffffffff%d%% - %s|r", perc, AbbreviateNumbers(cur))
+				health.value:SetFormattedText("|cffffffff%d%% - %s|r", perc, T.ShortValue(cur))
 			end
 		else
 			if C.unitframe.color_value then
@@ -113,9 +113,9 @@ T.PostUpdateHealth = function(health, unit, cur, max)
 				end
 			else
 				if C.unitframe.color_value then
-					health.short_value:SetText("|cff559655"..AbbreviateNumbers(max).."|r")
+					health.short_value:SetText("|cff559655"..T.ShortValue(max).."|r")
 				else
-					health.short_value:SetText("|cffffffff"..AbbreviateNumbers(max).."|r")
+					health.short_value:SetText("|cffffffff"..T.ShortValue(max).."|r")
 				end
 			end
 
@@ -219,22 +219,22 @@ T.PostUpdateRaidHealth = function(health, unit, cur, max)
 		end
 		if self:GetParent():GetName():match("oUF_PartyDPS") then
 			if C.unitframe.color_value then
-				health.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |c%s%d%%|r", AbbreviateNumbers(cur), hex, perc)
+				health.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |c%s%d%%|r", T.ShortValue(cur), hex, perc)
 			else
-				health.value:SetFormattedText("|cffffffff%s - %d%%|r", AbbreviateNumbers(cur), perc)
+				health.value:SetFormattedText("|cffffffff%s - %d%%|r", T.ShortValue(cur), perc)
 			end
 		else
 			if C.unitframe.color_value then
 				if C.raidframe.deficit_health then
 					local missing = UnitHealthMissing(unit)
-					health.value:SetText("|cffffffff".."-"..AbbreviateNumbers(missing))
+					health.value:SetText("|cffffffff".."-"..T.ShortValue(missing))
 				else
 					health.value:SetFormattedText("|c%s%d%%|r", hex, perc)
 				end
 			else
 				if C.raidframe.deficit_health then
 					local missing = UnitHealthMissing(unit)
-					health.value:SetText("|cffffffff".."-"..AbbreviateNumbers(missing))
+					health.value:SetText("|cffffffff".."-"..T.ShortValue(missing))
 				else
 					health.value:SetFormattedText("|cffffffff%d%%|r", perc)
 				end
@@ -248,9 +248,9 @@ T.PostUpdateRaidHealth = function(health, unit, cur, max)
 		-- Full health
 		do
 			if C.unitframe.color_value then
-				health.short_value:SetText("|cff559655"..AbbreviateNumbers(max).."|r")
+				health.short_value:SetText("|cff559655"..T.ShortValue(max).."|r")
 			else
-				health.short_value:SetText("|cffffffff"..AbbreviateNumbers(max).."|r")
+				health.short_value:SetText("|cffffffff"..T.ShortValue(max).."|r")
 			end
 
 			local color = UnitHealthPercent(unit, true, full_health_value)
@@ -340,23 +340,23 @@ T.PostUpdatePower = function(power, unit, cur, _, max)
 			if unit == "target" then
 				if C.unitframe.show_total_value then
 					if C.unitframe.color_value then
-						power.value:SetFormattedText("%s |cffD7BEA5-|r %s", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+						power.value:SetFormattedText("%s |cffD7BEA5-|r %s", T.ShortValue(cur), T.ShortValue(max))
 					else
-						power.value:SetFormattedText("|cffffffff%s - %s|r", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+						power.value:SetFormattedText("|cffffffff%s - %s|r", T.ShortValue(cur), T.ShortValue(max))
 					end
 				else
 					if C.unitframe.color_value then
-						power.value:SetFormattedText("%d%% |cffD7BEA5-|r %s", perc, AbbreviateNumbers(cur))
+						power.value:SetFormattedText("%d%% |cffD7BEA5-|r %s", perc, T.ShortValue(cur))
 					else
-						power.value:SetFormattedText("|cffffffff%d%% - %s|r", perc, AbbreviateNumbers(cur))
+						power.value:SetFormattedText("|cffffffff%d%% - %s|r", perc, T.ShortValue(cur))
 					end
 				end
 			elseif (unit == "player" and power:GetAttribute("normalUnit") == "pet") or unit == "pet" then
 				if C.unitframe.show_total_value then
 					if C.unitframe.color_value then
-						power.value:SetFormattedText("%s |cffD7BEA5-|r %s", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+						power.value:SetFormattedText("%s |cffD7BEA5-|r %s", T.ShortValue(cur), T.ShortValue(max))
 					else
-						power.value:SetFormattedText("%s |cffffffff-|r %s", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+						power.value:SetFormattedText("%s |cffffffff-|r %s", T.ShortValue(cur), T.ShortValue(max))
 					end
 				else
 					if C.unitframe.color_value then
@@ -367,22 +367,22 @@ T.PostUpdatePower = function(power, unit, cur, _, max)
 				end
 			elseif unit and (unit:find("arena%d") or unit:find("boss%d")) then
 				if C.unitframe.color_value then
-					power.value:SetFormattedText("|cffD7BEA5%d%% - %s|r", perc, AbbreviateNumbers(cur))
+					power.value:SetFormattedText("|cffD7BEA5%d%% - %s|r", perc, T.ShortValue(cur))
 				else
-					power.value:SetFormattedText("|cffffffff%d%% - %s|r", perc, AbbreviateNumbers(cur))
+					power.value:SetFormattedText("|cffffffff%d%% - %s|r", perc, T.ShortValue(cur))
 				end
 			elseif self:GetParent():GetName():match("oUF_PartyDPS") then
 				if C.unitframe.color_value then
-					power.value:SetFormattedText("%s |cffD7BEA5-|r %d%%", AbbreviateNumbers(cur), perc)
+					power.value:SetFormattedText("%s |cffD7BEA5-|r %d%%", T.ShortValue(cur), perc)
 				else
-					power.value:SetFormattedText("|cffffffff%s - %d%%|r", AbbreviateNumbers(cur), perc)
+					power.value:SetFormattedText("|cffffffff%s - %d%%|r", T.ShortValue(cur), perc)
 				end
 			else
 				if C.unitframe.show_total_value then
 					if C.unitframe.color_value then
-						power.value:SetFormattedText("%s |cffD7BEA5-|r %s", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+						power.value:SetFormattedText("%s |cffD7BEA5-|r %s", T.ShortValue(cur), T.ShortValue(max))
 					else
-						power.value:SetFormattedText("|cffffffff%s - %s|r", AbbreviateNumbers(cur), AbbreviateNumbers(max))
+						power.value:SetFormattedText("|cffffffff%s - %s|r", T.ShortValue(cur), T.ShortValue(max))
 					end
 				else
 					if C.unitframe.color_value then
@@ -408,9 +408,9 @@ T.PostUpdatePower = function(power, unit, cur, _, max)
 		do
 			if unit == "pet" or unit == "target" or (unit and unit:find("arena%d")) or (self:GetParent():GetName():match("oUF_PartyDPS")) then
 				if C.unitframe.color_value then
-					power.short_value:SetText(AbbreviateNumbers(cur))
+					power.short_value:SetText(T.ShortValue(cur))
 				else
-					power.short_value:SetText("|cffffffff"..AbbreviateNumbers(cur).."|r")
+					power.short_value:SetText("|cffffffff"..T.ShortValue(cur).."|r")
 				end
 			else
 				if C.unitframe.color_value then
@@ -457,31 +457,31 @@ T.PostUpdatePowerColor = function(power, unit, color, altR, altG, altB)
 	end
 end
 
-local SetUpAnimGroup = function(self)
-	self.anim = self:CreateAnimationGroup()
-	self.anim:SetLooping("BOUNCE")
-	self.anim.fade = self.anim:CreateAnimation("Alpha")
-	self.anim.fade:SetFromAlpha(1)
-	self.anim.fade:SetToAlpha(0)
-	self.anim.fade:SetDuration(0.6)
-	self.anim.fade:SetSmoothing("IN_OUT")
-end
+-- local SetUpAnimGroup = function(self)
+	-- self.anim = self:CreateAnimationGroup()
+	-- self.anim:SetLooping("BOUNCE")
+	-- self.anim.fade = self.anim:CreateAnimation("Alpha")
+	-- self.anim.fade:SetFromAlpha(1)
+	-- self.anim.fade:SetToAlpha(0)
+	-- self.anim.fade:SetDuration(0.6)
+	-- self.anim.fade:SetSmoothing("IN_OUT")
+-- end
 
-local Flash = function(self)
-	if not self.anim then
-		SetUpAnimGroup(self)
-	end
+-- local Flash = function(self)
+	-- if not self.anim then
+		-- SetUpAnimGroup(self)
+	-- end
 
-	if not self.anim:IsPlaying() then
-		self.anim:Play()
-	end
-end
+	-- if not self.anim:IsPlaying() then
+		-- self.anim:Play()
+	-- end
+-- end
 
-local StopFlash = function(self)
-	if self.anim then
-		self.anim:Finish()
-	end
-end
+-- local StopFlash = function(self)
+	-- if self.anim then
+		-- self.anim:Finish()
+	-- end
+-- end
 
 local low_mana = C_CurveUtil.CreateColorCurve()
 low_mana:SetType(Enum.LuaCurveType.Step)
@@ -515,7 +515,7 @@ T.UpdateManaLevel = function(self, elapsed)
 		end
 	elseif T.class ~= "DRUID" and T.class ~= "PRIEST" and T.class ~= "SHAMAN" then
 		self.ManaLevel:SetText()
-		StopFlash(self)
+		-- StopFlash(self)
 	end
 end
 
@@ -773,7 +773,7 @@ T.AuraTrackerTime = function(self, elapsed)
 	end
 end
 
-T.PostCreateIcon = function(element, button)
+T.PostCreateIcon = function(_, button)
 	button:SetTemplate("Default")
 
 	T.SkinCooldown(button.Cooldown, "aura")
@@ -816,7 +816,7 @@ for i, color in pairs(dispelIndex) do
 end
 T.DispelCurve = curve
 
-T.PostUpdateIcon = function(element, button, unit, data)
+T.PostUpdateIcon = function(_, button, unit, data)
 	if data.isHarmfulAura then
 		if not UnitIsFriend("player", unit) and not data.isPlayerAura then
 			if not C.aura.player_aura_only then
@@ -837,11 +837,6 @@ T.PostUpdateIcon = function(element, button, unit, data)
 	else
 		local color = C_CurveUtil.EvaluateColorFromBoolean(data.isStealable, {r = 1, g = 0.85, b = 0, a = 1}, {r = C.media.border_color[1], g = C.media.border_color[2], b = C.media.border_color[3], a = 1})
 		button:SetBackdropBorderColor(color:GetRGB())
-		if (T.class == "MAGE" or T.class == "PRIEST" or T.class == "SHAMAN" or T.class == "HUNTER") and data.dispelName == "Magic" and not UnitIsFriend("player", unit) then -- this is work? data.dispelName is often nil
-			button:SetBackdropBorderColor(1, 0.85, 0)
-		else
-			button:SetBackdropBorderColor(unpack(C.media.border_color))
-		end
 		button.Icon:SetDesaturated(false)
 	end
 end
@@ -850,7 +845,7 @@ T.PostUpdateGapButton = function(_, _, button)
 	button:Hide()
 end
 
-T.CreateRaidBuffIcon = function(element, button)
+T.CreateRaidBuffIcon = function(_, button)
 	if not C.raidframe.plugins_buffs_timer then
 		button.Cooldown:SetHideCountdownNumbers(true)
 	end
@@ -876,7 +871,7 @@ T.CreateRaidBuffIcon = function(element, button)
 	end
 end
 
-T.PostUpdateRaidButton = function(element, button, unit, data)
+T.PostUpdateRaidButton = function(_, button, unit, data)
 	if C.aura.debuff_color_type then
 		local color = C_UnitAuras.GetAuraDispelTypeColor(unit, data.auraInstanceID, T.DispelCurve)
 		if color then
