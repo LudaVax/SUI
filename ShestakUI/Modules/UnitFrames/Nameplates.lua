@@ -280,7 +280,7 @@ local AurasPostCreateIcon = function(element, button)
 		button.parent:SetFrameLevel(button.Cooldown:GetFrameLevel() + 1)
 		button.Count:SetParent(button.parent)
 	else
-		button.Cooldown:SetAlpha(0)
+		-- button.Cooldown:SetAlpha(0)
 	end
 end
 
