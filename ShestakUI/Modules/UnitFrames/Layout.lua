@@ -125,8 +125,8 @@ local function Shared(self, unit)
 		-- THis value for full health
 		self.Health.short_value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size+35, C.font.unit_frames_font_style)
 		if unit == "player" or unit == "pet" or unit == "focus" then
-			self.Health.short_value:SetPoint("RIGHT", self.Health, "RIGHT", 0, 0)
-			self.Health.short_value:SetJustifyH("RIGHT")
+			self.Health.short_value:SetPoint("CENTER", self.Health, "CENTER", 0, 0)
+			self.Health.short_value:SetJustifyH("CENTER")
 		elseif unit == "target" then
 			self.Health.short_value:SetPoint("CENTER", self.Health, "CENTER", 0, -10)
 			self.Health.short_value:SetJustifyH("CENTER")
@@ -148,8 +148,8 @@ local function Shared(self, unit)
 			end
 		else
 			self.Health.short_value = T.SetFontString(self.Health, C.font.unit_frames_font, C.font.unit_frames_font_size+15, C.font.unit_frames_font_style)
-			self.Health.short_value:SetPoint("LEFT", self.Health, "LEFT", 2, -8)
-			self.Health.short_value:SetJustifyH("LEFT")
+			self.Health.short_value:SetPoint("CENTER", self.Health, "CENTER", 2, -8)
+			self.Health.short_value:SetJustifyH("CENTER")
 		end
 
 		-- Power bar

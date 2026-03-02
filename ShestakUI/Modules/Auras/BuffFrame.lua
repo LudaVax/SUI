@@ -138,11 +138,8 @@ end
 -- Hide collapse button
 BuffFrame.CollapseAndExpandButton:Kill()
 
--- Hide debuffs
-<<<<<<< HEAD
+-- Show debuffs
 DebuffFrame.AuraContainer:Show()
-=======
-DebuffFrame.AuraContainer:Hide()
 
 -- Move Private Auras
 hooksecurefunc(DebuffFrame.AuraContainer, "UpdateGridLayout", function(_, auras)
@@ -162,4 +159,3 @@ hooksecurefunc(DebuffFrame.AuraContainer, "UpdateGridLayout", function(_, auras)
 		previousBuff = aura
 	end
 end)
->>>>>>> main
