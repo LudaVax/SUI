@@ -58,6 +58,7 @@ function frame:PLAYER_LOGIN()
 	end
 
 	SetCVar("nameplateShowOnlyNames", 1)
+	SetCVar("nameplateUseClassColorForFriendlyPlayerUnitNames", 1)
 
 	local function changeFont(self, size)
 		local mult = size or 1
