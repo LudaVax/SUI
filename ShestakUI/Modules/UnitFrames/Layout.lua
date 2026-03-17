@@ -158,7 +158,7 @@ local function Shared(self, unit)
 		self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
 		if unit == "player" then
 			self.Power:SetHeight(C.unitframe.power_height + C.unitframe.extra_power_height)
-			self.Power:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 305, 6)
+			self.Power:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 305, -36)
 			self.Power:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 305, 6)
 			self.Power:SetStatusBarTexture(C.media.texture)
 		elseif unit == "target" or unit == "arena" or unit == "boss" then
@@ -555,7 +555,7 @@ local function Shared(self, unit)
 		if C.unitframe_class_bar.combo and C.unitframe_class_bar.combo_old ~= true and (T.class == "ROGUE" or T.class == "DRUID") then
 			self.ComboPoints = CreateFrame("Frame", self:GetName().."_ComboBar", self)
 			self.ComboPoints:CreateBackdrop("Default")
-			self.ComboPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 305, -64)
+			self.ComboPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 305, -106)
 			self.ComboPoints:SetSize(player_width, 7)
 
 			for i = 1, 7 do
