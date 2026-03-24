@@ -150,7 +150,7 @@ hooksecurefunc(DebuffFrame.AuraContainer, "UpdateGridLayout", function(_, auras)
 			aura:SetPoint("TOP", aboveBuff, "BOTTOM", 0, -space)
 			aboveBuff = aura
 		elseif index == 1 then
-			aura:SetPoint("TOPRIGHT", BuffsAnchor, "RIGHT", 0, 0)
+			aura:SetPoint("TOPRIGHT", BuffsAnchor, "RIGHT", 0, -32)
 			aboveBuff = aura
 		else
 			aura:SetPoint("RIGHT", previousBuff, "LEFT", -space, 0)
