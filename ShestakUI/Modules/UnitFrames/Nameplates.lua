@@ -707,6 +707,41 @@ local function callback(self, _, unit)
 	end
 end
 
+C.nameplate.show_castbar_name = true
+local oldfunction = T.PostCreateNameplates or function() end
+T.PostCreateNameplates = function(self, unit)
+	if self.Castbar then
+		hooksecurefunc(self.Castbar, "PostCastStart", function(Castbar)
+			if not Castbar.Text then return end
+
+			local owner = Castbar.__owner
+			if not owner or not owner.unit then return end
+
+			local unit = owner.unit
+			local targetUnit = unit.."target"
+
+			if UnitExists(targetUnit) then
+				local targetName = UnitName(targetUnit)
+
+				local _, class = UnitClass(targetUnit)
+				local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
+
+				if color then
+					Castbar.Text:SetFormattedText(Castbar.Text:GetText().."|cFF%02X%02X%02X -> %s|r",
+						color.r * 255,
+						color.g * 255,
+						color.b * 255,
+						targetName
+					)
+				else
+					Castbar.Text:SetText(Castbar.Text:GetText().." -> "..targetName)
+				end
+			end
+		end)
+	end
+	oldfunction(self, unit)
+end
+
 local function style(self, unit)
 	local main = self
 	self.unit = unit
