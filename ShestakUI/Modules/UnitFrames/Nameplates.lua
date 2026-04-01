@@ -475,27 +475,14 @@ local function CastInterrupted(self, unit, interruptedBy)
 	self:GetStatusBarTexture():SetVertexColor(0.2, 0.2, 0.2)
 	if interruptedBy then
 		local _, class, _, _, _, unitName = GetPlayerInfoByGUID(interruptedBy)
-<<<<<<< HEAD
-		local coloredName = unitName
-		if class then
-			classColor = C_ClassColor.GetClassColor(class)
-			if classColor then
-				coloredName = classColor:WrapTextInColorCode(unitName)
-			end
-		end	
-		if unitName then
-			self.Text:SetText(INTERRUPTED .. " [" .. coloredName .. "]")
-=======
 		if unitName then
 			if class then
-				local classColor = C_ClassColor.GetClassColor(class)
+				classColor = C_ClassColor.GetClassColor(class)
 				if classColor then
 					unitName = classColor:WrapTextInColorCode(unitName)
 				end
-			end
-			self.Time:SetText()
-			self.Text:SetFormattedText("%s: %s", INTERRUPTED, unitName)
->>>>>>> main
+			end	
+		self.Text:SetText(unitName)
 		end
 	end
 end
