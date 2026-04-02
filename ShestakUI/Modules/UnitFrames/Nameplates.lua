@@ -840,9 +840,9 @@ local function style(self, unit)
 		self.Castbar.Text:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * 1, C.font.nameplates_font_style)
 		self.Castbar.Text:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
 		self.Castbar.Text:SetHeight(C.font.nameplates_font_size)
-		self.Castbar.Text:SetJustifyH("LEFT")
+		self.Castbar.Text:SetJustifyH("CENTER")
 
-		self.Castbar.timeToHold = 1.5 -- for interrupted
+		self.Castbar.timeToHold = 0.5 -- for interrupted
 		self.Castbar.PostCastInterrupted = CastInterrupted
 	end
 
