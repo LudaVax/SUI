@@ -1482,26 +1482,20 @@ do
 		{"assistedcombat"},
 		{"atlasloot"},
 		{"bigwigs"},
-		{"blood_shield_tracker"},
 		{"capping"},
 		{"clique"},
-		{"cool_line"},
 		{"dbm"},
 		{"details"},
 		{"dominos"},
 		{"flyout_button"},
 		{"mage_nuggets"},
 		{"my_role_play"},
-		{"omen"},
 		{"opie"},
-		{"ovale"},
 		{"plater"},
 		{"postal"},
 		{"rarescanner"},
-		-- {"recount"},
 		{"rematch"},
-		-- {"skada"},
-		-- {"tiny_dps"},
+		{"skada"},
 		{"vanaskos"},
 		{"weak_auras"},
 	}
@@ -2445,8 +2439,11 @@ do
 	local show_castbar_name = ns.CreateCheckBox(parent, "show_castbar_name", L_GUI_NAMEPLATE_CASTBAR_NAME)
 	show_castbar_name:SetPoint("TOPLEFT", health_value, "BOTTOMLEFT", 0, 0)
 
+	local cast_target = ns.CreateCheckBox(parent, "cast_target")
+	cast_target:SetPoint("TOPLEFT", show_castbar_name, "BOTTOMLEFT", 20, 0)
+
 	local class_icons = ns.CreateCheckBox(parent, "class_icons", L_GUI_NAMEPLATE_CLASS_ICON)
-	class_icons:SetPoint("TOPLEFT", show_castbar_name, "BOTTOMLEFT", 0, 0)
+	class_icons:SetPoint("TOPLEFT", cast_target, "BOTTOMLEFT", -20, 0)
 
 	local name_abbrev = ns.CreateCheckBox(parent, "name_abbrev", L_GUI_NAMEPLATE_NAME_ABBREV)
 	name_abbrev:SetPoint("TOPLEFT", class_icons, "BOTTOMLEFT", 0, 0)
