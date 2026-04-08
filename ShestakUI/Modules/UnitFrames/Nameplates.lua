@@ -12,7 +12,6 @@ frame:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end
 if C.nameplate.combat then
 	frame:RegisterEvent("PLAYER_REGEN_ENABLED")
 	frame:RegisterEvent("PLAYER_REGEN_DISABLED")
-	frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 	function frame:PLAYER_REGEN_ENABLED()
 		SetCVar("nameplateShowEnemies", 0)
@@ -21,8 +20,13 @@ if C.nameplate.combat then
 	function frame:PLAYER_REGEN_DISABLED()
 		SetCVar("nameplateShowEnemies", 1)
 	end
+end
 
-	function frame:PLAYER_ENTERING_WORLD()
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+function frame:PLAYER_ENTERING_WORLD()
+	C_NamePlate.SetNamePlateSize(C.nameplate.width * 1.2, (C.nameplate.height + C.font.nameplates_font_size + 8) * 2)
+
+	if C.nameplate.combat then
 		if InCombatLockdown() then
 			SetCVar("nameplateShowEnemies", 1)
 		else
@@ -56,8 +60,11 @@ function frame:PLAYER_LOGIN()
 	if C.nameplate.only_name then
 		SetCVar("nameplateShowOnlyNameForFriendlyPlayerUnits", 1)
 	end
+<<<<<<< HEAD
 
 	SetCVar("nameplateShowOnlyNames", 1)
+=======
+>>>>>>> main
 	SetCVar("nameplateUseClassColorForFriendlyPlayerUnitNames", 1)
 
 	local function changeFont(self, size)
@@ -306,8 +313,8 @@ local AurasPostUpdateIcon = function(_, button, unit, data)
 end
 
 local function UpdateTarget(self)
-	local isTarget = UnitIsUnit(self.unit, "target")
-	local isMe = UnitIsUnit(self.unit, "player")
+	local isTarget = T.unitIsUnit(self.unit, "target")
+	local isMe = T.unitIsUnit(self.unit, "player")
 
 	if isTarget and not isMe then
 		if C.nameplate.ad_height > 0 or C.nameplate.ad_width > 0 then
@@ -339,6 +346,14 @@ local function UpdateTarget(self)
 		else
 			self:SetAlpha(C.nameplate.alpha)
 		end
+	end
+end
+
+local function UpdateFocus(self)
+	if T.unitIsUnit(self.unit, "focus") then
+		SetColorBorder(self.Health, 1, 0.8, 0)
+	else
+		SetColorBorder(self.Health, unpack(C.media.border_color))
 	end
 end
 
@@ -556,7 +571,7 @@ local function threatColor(self, forced)
 					local offTank = false
 					if IsInRaid() then
 						for i = 1, GetNumGroupMembers() do
-							if UnitExists("raid"..i) and not UnitIsUnit("raid"..i, "player") and UnitGroupRolesAssigned("raid"..i) == "TANK" then
+							if UnitExists("raid"..i) and not T.unitIsUnit("raid"..i, "player") and UnitGroupRolesAssigned("raid"..i) == "TANK" then
 								local isTanking = UnitDetailedThreatSituation("raid"..i, self.unit)
 								if isTanking then
 									offTank = true
@@ -621,14 +636,18 @@ local function HealthPostUpdateColor(self, unit, color)
 	local mu = self.bg.multiplier
 	local isPlayer = UnitIsPlayer(unit)
 	local unitReaction = UnitReaction(unit, "player")
-	if not UnitIsUnit("player", unit) and isPlayer and (unitReaction and unitReaction >= 5) then
+	if not T.unitIsUnit("player", unit) and isPlayer and (unitReaction and unitReaction >= 5) then
 		r, g, b = T.oUF_colors.power["MANA"]:GetRGB()
 		self:SetStatusBarColor(r, g, b)
 		self.bg:SetVertexColor(r * mu, g * mu, b * mu)
 	elseif not UnitIsTapDenied(unit) and not isPlayer then
 		local special = UnitClassification(unit)
-		if special == "elite" and IsInInstance() and UnitClassBase(unit) == "PALADIN" then
-			main.npcID = "caster"
+		if special == "elite" and IsInInstance() then
+			if UnitIsLieutenant(unit) then
+				main.npcID = "miniboss"
+			elseif UnitClassBase(unit) == "PALADIN" then
+				main.npcID = "caster"
+			end
 		end
 		if C.nameplate.mob_color_enable and T.ColorPlate[main.npcID] then
 			r, g, b = unpack(T.ColorPlate[main.npcID])
@@ -652,6 +671,10 @@ local function HealthPostUpdateColor(self, unit, color)
 	end
 
 	threatColor(main, true)
+
+	if T.unitIsUnit(unit, "focus") then
+		SetColorBorder(self, 1, 0.8, 0)
+	end
 end
 
 local function callback(self, _, unit)
@@ -667,7 +690,7 @@ local function callback(self, _, unit)
 			self:Show()
 		end
 
-		if UnitIsUnit(unit, "player") then
+		if T.unitIsUnit(unit, "player") then
 			self.Name:Hide()
 			self.Castbar:SetAlpha(0)
 			self.RaidTargetIndicator:SetAlpha(0)
@@ -697,6 +720,9 @@ local function callback(self, _, unit)
 
 			if C.nameplate.only_name then
 				if UnitIsFriend("player", unit) then
+					if not InCombatLockdown() then
+						nameplate:SetSize(C.nameplate.width * 0.5, C.font.nameplates_font_size + 8)
+					end
 					self.Health:SetAlpha(0)
 					self.Name:ClearAllPoints()
 					self.Name:SetPoint("CENTER", self, "CENTER", 0, 0)
@@ -706,6 +732,9 @@ local function callback(self, _, unit)
 						self.Glow:SetAlpha(0)
 					end
 				else
+					if not InCombatLockdown() then
+						nameplate:SetSize(C.nameplate.width * 1.2, (C.nameplate.height + C.font.nameplates_font_size + 8) * 2)
+					end
 					self.Health:SetAlpha(1)
 					self.Name:ClearAllPoints()
 					self.Name:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -3, 4)
@@ -975,6 +1004,9 @@ local function style(self, unit)
 	table.insert(self.__elements, UpdateTarget)
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", UpdateTarget, true)
 
+	table.insert(self.__elements, UpdateFocus)
+	self:RegisterEvent("PLAYER_FOCUS_CHANGED", UpdateFocus, true)
+
 	-- Disable movement via /moveui
 	self.disableMovement = true
 
@@ -990,3 +1022,4 @@ oUF:SpawnNamePlates("ShestakNameplates")
 oUFShestakUI_NamePlateDriver:SetTargetCallback(callback)
 oUFShestakUI_NamePlateDriver:SetAddedCallback(callback)
 oUFShestakUI_NamePlateDriver:SetRemovedCallback(callback)
+-- oUFShestakUI_NamePlateDriver:SetFriendlyInteractible(false)
