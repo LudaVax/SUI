@@ -158,8 +158,9 @@ local function Shared(self, unit)
 		self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
 		if unit == "player" then
 			self.Power:SetHeight(C.unitframe.power_height + C.unitframe.extra_power_height)
-			self.Power:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 305, -36)
-			self.Power:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 305, 6)
+			self.Power:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 257, 4)
+			self.Power:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 356, 6)
+			self.Power:CreateBackdrop("Default")
 			self.Power:SetStatusBarTexture(C.media.texture)
 		elseif unit == "target" or unit == "arena" or unit == "boss" then
 			self.Power:SetHeight(C.unitframe.power_height + C.unitframe.extra_power_height)
@@ -227,8 +228,8 @@ local function Shared(self, unit)
 			-- Power value when 100% (Midnight workaround)
 			self.Power.short_value = T.SetFontString(self.Power, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
 			if unit == "player" then
-				self.Power.short_value:SetPoint("RIGHT", self.Power, "RIGHT", 0, 0)
-				self.Power.short_value:SetJustifyH("RIGHT")
+				self.Power.short_value:SetPoint("CENTER", self.Power, "CENTER", 0, 0)
+				self.Power.short_value:SetJustifyH("CENTER")
 			elseif unit == "arena" then
 				if C.unitframe.arena_on_right then
 					self.Power.short_value:SetPoint("LEFT", self.Power, "LEFT", 2, 0)
@@ -555,12 +556,12 @@ local function Shared(self, unit)
 		if C.unitframe_class_bar.combo and C.unitframe_class_bar.combo_old ~= true and (T.class == "ROGUE" or T.class == "DRUID") then
 			self.ComboPoints = CreateFrame("Frame", self:GetName().."_ComboBar", self)
 			self.ComboPoints:CreateBackdrop("Default")
-			self.ComboPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 305, -106)
-			self.ComboPoints:SetSize(player_width, 7)
+			self.ComboPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 257, -65)
+			self.ComboPoints:SetSize(player_width+99, 7)
 
 			for i = 1, 7 do
 				self.ComboPoints[i] = CreateFrame("StatusBar", self:GetName().."_Combo"..i, self.ComboPoints)
-				self.ComboPoints[i]:SetSize((player_width - 5) / 7, 7)
+				self.ComboPoints[i]:SetSize(((player_width + 99) - 5) / 7, 7)
 				if i == 1 then
 					self.ComboPoints[i]:SetPoint("LEFT", self.ComboPoints)
 				else
