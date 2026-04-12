@@ -1019,4 +1019,7 @@ oUF:SpawnNamePlates("ShestakNameplates")
 oUFShestakUI_NamePlateDriver:SetTargetCallback(callback)
 oUFShestakUI_NamePlateDriver:SetAddedCallback(callback)
 oUFShestakUI_NamePlateDriver:SetRemovedCallback(callback)
--- oUFShestakUI_NamePlateDriver:SetFriendlyInteractible(false)
+
+if C.nameplate.click_through then
+	oUFShestakUI_NamePlateDriver:SetFriendlyInteractible(false)
+end
