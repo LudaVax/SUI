@@ -469,19 +469,19 @@ local function castColor(self, unit)
 		SetColorBorder(self.Border, color:GetRGB())
 	end
 
-	if C.nameplate.cast_target then
-		local target = UnitSpellTargetName(unit)
-		if target then
-			local class = UnitSpellTargetClass(unit)
-			if class then
-				local classColor = C_ClassColor.GetClassColor(class)
-				if classColor then
-					target = classColor:WrapTextInColorCode(target)
-				end
-			end
-			self.Text:SetText("-> "..target)
-		end
-	end
+	--if C.nameplate.cast_target then
+	--	local target = UnitSpellTargetName(unit)
+	--	if target then
+	--		local class = UnitSpellTargetClass(unit)
+	--		if class then
+	--			local classColor = C_ClassColor.GetClassColor(class)
+	--			if classColor then
+	--				target = classColor:WrapTextInColorCode(target)
+	--			end
+	--		end
+	--		self.Text:SetText("-> "..target)
+	--	end
+	--end
 
 	-- if C.nameplate.cast_color and canaccessvalue(self.spellID) then -- BETA not work
 		-- if T.InterruptCast[self.spellID] then
@@ -774,7 +774,7 @@ T.PostCreateNameplates = function(self, unit)
 						targetName
 					)
 				else
-					Castbar.Text:SetText(Castbar.Text:GetText().." -> "..targetName)
+					Castbar.Text:SetText(Castbar.Text:GetText()..": "..targetName)
 				end
 			end
 		end)
