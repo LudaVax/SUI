@@ -143,7 +143,7 @@ DebuffFrame.AuraContainer:Show()
 
 -- Move Private Auras
 local PrivateAnchor = CreateFrame("Frame", "PrivateAnchor", UIParent)
-PrivateAnchor:SetPoint("TOPRIGHT", BuffsAnchor, "BOTTOMRIGHT", 0, -5)
+PrivateAnchor:SetPoint("TOPRIGHT", BuffsAnchor, "BOTTOMRIGHT", 0, -200)
 PrivateAnchor:SetSize((3 * (C.aura.player_buff_size + space)) - space, (C.aura.player_buff_size * 2) - (space * 2))
 
 hooksecurefunc(DebuffFrame.AuraContainer, "UpdateGridLayout", function(_, auras)
