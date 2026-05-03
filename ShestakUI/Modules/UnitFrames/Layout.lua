@@ -880,8 +880,8 @@ local function Shared(self, unit)
 				self.Auras.initialAnchor = "BOTTOMLEFT"
 				self.Auras.growthX = "RIGHT"
 				self.Auras.growthY = "UP"
-				self.Auras.numDebuffs = 16
-				self.Auras.numBuffs = 32
+				self.Auras.numDebuffs = 7
+				self.Auras.numBuffs = 7
 				self.Auras:SetHeight(165)
 				self.Auras:SetWidth(player_width - 6)
 				self.Auras.spacing = T.Scale(3)
