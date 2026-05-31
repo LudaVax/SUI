@@ -1099,3 +1099,38 @@ T.CustomFilterBoss = function(_, unit, data)
 	end
 	return true
 end
+
+if C.raidframe.plugins_debuffs_filter then
+	T.CustomDebuffFilter = function(_, unit, data)
+		local allow = false
+
+		local filter = not C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, data.auraInstanceID, "HARMFUL|IMPORTANT")
+		if filter then
+			allow = true
+		end
+
+		filter = not C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, data.auraInstanceID, "HARMFUL|CROWD_CONTROL")
+		if filter then
+			allow = true
+		end
+
+		filter = not C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, data.auraInstanceID, "HARMFUL|RAID")
+		if filter then
+			allow = true
+		end
+
+		filter = not C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, data.auraInstanceID, "HARMFUL|RAID_IN_COMBAT")
+		if filter then
+			allow = true
+		end
+
+		return allow
+	end
+else
+	T.CustomDebuffFilter = function(_, _, data)
+		if T.NotSecretValue(data.spellId) and T.RaidDebuffsIgnore[data.spellId] then
+			return false
+		end
+		return true
+	end
+end
