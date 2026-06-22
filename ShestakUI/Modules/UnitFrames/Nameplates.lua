@@ -728,6 +728,13 @@ local function callback(self, _, unit)
 					if C.nameplate.target_glow then
 						self.Glow:SetAlpha(0)
 					end
+					if C.raidframe.plugins_healcomm then
+						self.Health.DamageAbsorb:Hide()
+
+						if C.raidframe.plugins_over_heal_absorb then
+							self.Health.OverDamageAbsorbIndicator:Hide()
+						end
+					end
 				else
 					if not InCombatLockdown() then
 						nameplate:SetSize(C.nameplate.width * 1.2, (C.nameplate.height + C.font.nameplates_font_size + 8) * 2)
@@ -740,6 +747,13 @@ local function callback(self, _, unit)
 					self.Castbar:SetAlpha(1)
 					if C.nameplate.target_glow then
 						self.Glow:SetAlpha(1)
+					end
+					if C.raidframe.plugins_healcomm then
+						self.Health.DamageAbsorb:Show()
+
+						if C.raidframe.plugins_over_heal_absorb then
+							self.Health.OverDamageAbsorbIndicator:Show()
+						end
 					end
 				end
 			end
